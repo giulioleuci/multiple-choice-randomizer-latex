@@ -182,7 +182,7 @@ Se non specificati, vengono utilizzati i valori predefiniti dal `config.json`.
 
 ## Licenza
 
-Questo progetto è distribuito con licenza MIT. Vedi il file `LICENSE` per i dettagli.
+Questo progetto è distribuito con licenza GPL. Vedi il file `LICENSE` per i dettagli.
 
 ---
 
