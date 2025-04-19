@@ -1,0 +1,19 @@
+{
+    "num_variants": 20,
+    "num_potential_variants_for_randomness_check": 100,
+    "default_correct_score": 4,
+    "default_wrong_score": 0,
+    "default_no_answer_score": 1,
+    "passing_threshold": 0.58,
+    "test_header": "Verifica di fisica",
+    "instructions": "Una sola risposta è corretta e vale 4 punti; risposta non data 1 punto; risposta errata 0 punti.",
+    "include_answer_grid": true,
+
+
+    "choice_label_format": "letters_upper",  /* 'letters_upper', 'letters_lower', 'numbers' */
+    "choice_label_style": "bold",           /* 'bold', 'italic', 'normal' (not yet fully implemented in style, label format is) */
+    "default_num_columns_alternatives": 1,   /* Default numero colonne, sovrascrivibile in Excel per domanda */
+    "choice_use_boxes": false,             /* true per box intorno alternative, false altrimenti */
+    "choice_custom_prefix": "",      /* Prefisso personalizzato per alternative (stringa vuota per nessuno) */
+    "choice_global_font_size": "10pt"      /* Dimensione font globale per alternative (es. "11pt", "12pt", null per default) */
+}

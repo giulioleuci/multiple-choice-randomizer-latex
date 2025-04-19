@@ -1,0 +1,107 @@
+=== Report Dettagliato degli Studenti ===
+
+
+---- Studente: LUIGI BIANCHI ----
+Variante del test: 43
+
+Punteggio totale: 73 su 80 (91.25%)
+Punti da risposte corrette: 72 (n. risposte: 18)
+Punti da risposte errate: 0 (n. risposte: 1)
+Punti da risposte non date: 1 (n. risposte: 1)
+
+Confrontato con la classe:
+Percentile: 100.0 (0-100)
+Z-Score: 1.39 (distanza dalla media in unità di deviazione standard)
+Stanine: S+ (F- = peggiore, S+ = migliore)
+
+Dettaglio risposte:
+Domanda 1 (bohr): Risposta: d - CORRETTA (punti: 4)
+Domanda 2 (compton): Risposta: b - CORRETTA (punti: 4)
+Domanda 3 (gatto2): Risposta: d - CORRETTA (punti: 4)
+Domanda 4 (fotoele2): Risposta: blank - NON DATA (punti: 1)
+Domanda 5 (bohr2): Risposta: a - CORRETTA (punti: 4)
+Domanda 6 (young): Risposta: c - CORRETTA (punti: 4)
+Domanda 7 (heisenb): Risposta: d - CORRETTA (punti: 4)
+Domanda 8 (betam): Risposta: c - CORRETTA (punti: 4)
+Domanda 9 (radiolo): Risposta: b - CORRETTA (punti: 4)
+Domanda 10 (decad1): Risposta: b - CORRETTA (punti: 4)
+Domanda 11 (fotoele1): Risposta: b - CORRETTA (punti: 4)
+Domanda 12 (legame_nuc): Risposta: a - CORRETTA (punti: 4)
+Domanda 13 (gatto1): Risposta: c - CORRETTA (punti: 4)
+Domanda 14 (alfa): Risposta: d - CORRETTA (punti: 4)
+Domanda 15 (decad2): Risposta: d - CORRETTA (punti: 4)
+Domanda 16 (legame_nuc2): Risposta: c - CORRETTA (punti: 4)
+Domanda 17 (decad3): Risposta: d - CORRETTA (punti: 4)
+Domanda 18 (betap): Risposta: c - CORRETTA (punti: 4)
+Domanda 19 (cat_ultrav): Risposta: c - CORRETTA (punti: 4)
+Domanda 20 (compton_ango): Risposta: b - ERRATA - Risposta corretta: A (punti: 0)
+
+---- Studente: MICHELE VERDI ----
+Variante del test: 99
+
+Punteggio totale: 51 su 80 (63.75%)
+Punti da risposte corrette: 44 (n. risposte: 11)
+Punti da risposte errate: 0 (n. risposte: 2)
+Punti da risposte non date: 7 (n. risposte: 7)
+
+Confrontato con la classe:
+Percentile: 66.67 (0-100)
+Z-Score: -0.48 (distanza dalla media in unità di deviazione standard)
+Stanine: C (F- = peggiore, S+ = migliore)
+
+Dettaglio risposte:
+Domanda 1 (gatto2): Risposta: blank - NON DATA (punti: 1)
+Domanda 2 (compton): Risposta: b - CORRETTA (punti: 4)
+Domanda 3 (betam): Risposta: c - CORRETTA (punti: 4)
+Domanda 4 (decad1): Risposta: b - CORRETTA (punti: 4)
+Domanda 5 (bohr2): Risposta: d - CORRETTA (punti: 4)
+Domanda 6 (cat_ultrav): Risposta: d - CORRETTA (punti: 4)
+Domanda 7 (legame_nuc): Risposta: b - CORRETTA (punti: 4)
+Domanda 8 (compton_ango): Risposta: a - ERRATA - Risposta corretta: D (punti: 0)
+Domanda 9 (legame_nuc2): Risposta: c - CORRETTA (punti: 4)
+Domanda 10 (heisenb): Risposta: blank - NON DATA (punti: 1)
+Domanda 11 (decad3): Risposta: blank - NON DATA (punti: 1)
+Domanda 12 (bohr): Risposta: d - CORRETTA (punti: 4)
+Domanda 13 (betap): Risposta: c - CORRETTA (punti: 4)
+Domanda 14 (fotoele2): Risposta: blank - NON DATA (punti: 1)
+Domanda 15 (young): Risposta: b - CORRETTA (punti: 4)
+Domanda 16 (radiolo): Risposta: blank - NON DATA (punti: 1)
+Domanda 17 (fotoele1): Risposta: blank - NON DATA (punti: 1)
+Domanda 18 (alfa): Risposta: a - CORRETTA (punti: 4)
+Domanda 19 (gatto1): Risposta: blank - NON DATA (punti: 1)
+Domanda 20 (decad2): Risposta: b - ERRATA - Risposta corretta: A (punti: 0)
+
+---- Studente: MARIO ROSSI ----
+Variante del test: 56
+
+Punteggio totale: 46 su 80 (57.5%)
+Punti da risposte corrette: 40 (n. risposte: 10)
+Punti da risposte errate: 0 (n. risposte: 4)
+Punti da risposte non date: 6 (n. risposte: 6)
+
+Confrontato con la classe:
+Percentile: 33.33 (0-100)
+Z-Score: -0.91 (distanza dalla media in unità di deviazione standard)
+Stanine: F- (F- = peggiore, S+ = migliore)
+
+Dettaglio risposte:
+Domanda 1 (bohr): Risposta: blank - NON DATA (punti: 1)
+Domanda 2 (fotoele1): Risposta: blank - NON DATA (punti: 1)
+Domanda 3 (gatto2): Risposta: b - CORRETTA (punti: 4)
+Domanda 4 (legame_nuc2): Risposta: a - CORRETTA (punti: 4)
+Domanda 5 (betam): Risposta: b - CORRETTA (punti: 4)
+Domanda 6 (radiolo): Risposta: blank - NON DATA (punti: 1)
+Domanda 7 (fotoele2): Risposta: blank - NON DATA (punti: 1)
+Domanda 8 (bohr2): Risposta: b - CORRETTA (punti: 4)
+Domanda 9 (decad1): Risposta: b - CORRETTA (punti: 4)
+Domanda 10 (compton): Risposta: blank - NON DATA (punti: 1)
+Domanda 11 (cat_ultrav): Risposta: blank - NON DATA (punti: 1)
+Domanda 12 (young): Risposta: b - ERRATA - Risposta corretta: D (punti: 0)
+Domanda 13 (heisenb): Risposta: c - CORRETTA (punti: 4)
+Domanda 14 (compton_ango): Risposta: d - ERRATA - Risposta corretta: B (punti: 0)
+Domanda 15 (alfa): Risposta: a - CORRETTA (punti: 4)
+Domanda 16 (decad3): Risposta: d - CORRETTA (punti: 4)
+Domanda 17 (betap): Risposta: a - ERRATA - Risposta corretta: C (punti: 0)
+Domanda 18 (gatto1): Risposta: c - CORRETTA (punti: 4)
+Domanda 19 (legame_nuc): Risposta: a - CORRETTA (punti: 4)
+Domanda 20 (decad2): Risposta: c - ERRATA - Risposta corretta: D (punti: 0)

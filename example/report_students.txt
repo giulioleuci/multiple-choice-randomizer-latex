@@ -1,0 +1,26 @@
+=== Report degli Studenti ===
+
+Statistiche Generali:
+Numero di studenti: 3
+Punteggio medio: 56.67
+Punteggio mediano: 51.0
+Deviazione standard: 11.73
+Punteggio minimo: 46
+Punteggio massimo: 73
+Quartili (25%, 50%, 75%): [48.5, 51.0, 62.0]
+Soglia di sufficienza: 57.99999999999999%
+Percentuale di promossi: 66.67%
+Media risposte corrette: 13.0
+Media risposte errate: 2.33
+Media risposte non date: 4.67
+Media punti risposte corrette: 52.0
+Media punti risposte errate: 0.0
+Media punti risposte non date: 4.67
+
+
+Dettaglio per Studente:
+Student ID | Var | Corr | Err | ND | P.Corr | P.Err | P.ND | Tot | Max | % | %ile | Z | Stanine
+----------------------------------------------------------------------------------------------------
+LUIGI BIANCHI | 43 | 18 | 1 | 1 | 72 | 0 | 1 | 73 | 80 | 91.25% | 100.0 | 1.39 | S+
+MICHELE VERDI | 99 | 11 | 2 | 7 | 44 | 0 | 7 | 51 | 80 | 63.75% | 66.67 | -0.48 | C
+MARIO ROSSI | 56 | 10 | 4 | 6 | 40 | 0 | 6 | 46 | 80 | 57.5% | 33.33 | -0.91 | F-
