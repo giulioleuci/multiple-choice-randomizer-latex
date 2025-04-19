@@ -1,0 +1,187 @@
+=== Report delle Domande ===
+
+Numero totale di domande: 20
+Numero totale di studenti: 3
+Punteggio medio del test: 56.67
+
+Dettaglio per Domanda:
+
+== Domanda: alfa ==
+Risposte corrette: 3 (100.0%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 0 (0.0%)
+Indice di difficoltà: 0.0 (0=facile, 1=difficile)
+Indice di discriminazione: 0.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Facile
+Valutazione discriminazione: Scarsa
+
+== Domanda: betam ==
+Risposte corrette: 3 (100.0%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 0 (0.0%)
+Indice di difficoltà: 0.0 (0=facile, 1=difficile)
+Indice di discriminazione: 0.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Facile
+Valutazione discriminazione: Scarsa
+
+== Domanda: betap ==
+Risposte corrette: 2 (66.67%)
+Risposte errate: 1 (33.33%)
+Risposte non date: 0 (0.0%)
+Indice di difficoltà: 0.33 (0=facile, 1=difficile)
+Indice di discriminazione: 1.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Media
+Valutazione discriminazione: Eccellente
+
+== Domanda: bohr ==
+Risposte corrette: 2 (66.67%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 1 (33.33%)
+Indice di difficoltà: 0.33 (0=facile, 1=difficile)
+Indice di discriminazione: 1.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Media
+Valutazione discriminazione: Eccellente
+
+== Domanda: bohr2 ==
+Risposte corrette: 3 (100.0%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 0 (0.0%)
+Indice di difficoltà: 0.0 (0=facile, 1=difficile)
+Indice di discriminazione: 0.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Facile
+Valutazione discriminazione: Scarsa
+
+== Domanda: cat_ultrav ==
+Risposte corrette: 2 (66.67%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 1 (33.33%)
+Indice di difficoltà: 0.33 (0=facile, 1=difficile)
+Indice di discriminazione: 1.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Media
+Valutazione discriminazione: Eccellente
+
+== Domanda: compton ==
+Risposte corrette: 2 (66.67%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 1 (33.33%)
+Indice di difficoltà: 0.33 (0=facile, 1=difficile)
+Indice di discriminazione: 1.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Media
+Valutazione discriminazione: Eccellente
+
+== Domanda: compton_ango ==
+Risposte corrette: 0 (0.0%)
+Risposte errate: 3 (100.0%)
+Risposte non date: 0 (0.0%)
+Indice di difficoltà: 1.0 (0=facile, 1=difficile)
+Indice di discriminazione: 0.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Difficile
+Valutazione discriminazione: Scarsa
+
+== Domanda: decad1 ==
+Risposte corrette: 3 (100.0%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 0 (0.0%)
+Indice di difficoltà: 0.0 (0=facile, 1=difficile)
+Indice di discriminazione: 0.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Facile
+Valutazione discriminazione: Scarsa
+
+== Domanda: decad2 ==
+Risposte corrette: 1 (33.33%)
+Risposte errate: 2 (66.67%)
+Risposte non date: 0 (0.0%)
+Indice di difficoltà: 0.67 (0=facile, 1=difficile)
+Indice di discriminazione: 1.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Media
+Valutazione discriminazione: Eccellente
+
+== Domanda: decad3 ==
+Risposte corrette: 2 (66.67%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 1 (33.33%)
+Indice di difficoltà: 0.33 (0=facile, 1=difficile)
+Indice di discriminazione: 0.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Media
+Valutazione discriminazione: Scarsa
+
+== Domanda: fotoele1 ==
+Risposte corrette: 1 (33.33%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 2 (66.67%)
+Indice di difficoltà: 0.67 (0=facile, 1=difficile)
+Indice di discriminazione: 1.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Media
+Valutazione discriminazione: Eccellente
+
+== Domanda: fotoele2 ==
+Risposte corrette: 0 (0.0%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 3 (100.0%)
+Indice di difficoltà: 1.0 (0=facile, 1=difficile)
+Indice di discriminazione: 0.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Difficile
+Valutazione discriminazione: Scarsa
+
+== Domanda: gatto1 ==
+Risposte corrette: 2 (66.67%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 1 (33.33%)
+Indice di difficoltà: 0.33 (0=facile, 1=difficile)
+Indice di discriminazione: 0.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Media
+Valutazione discriminazione: Scarsa
+
+== Domanda: gatto2 ==
+Risposte corrette: 2 (66.67%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 1 (33.33%)
+Indice di difficoltà: 0.33 (0=facile, 1=difficile)
+Indice di discriminazione: 0.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Media
+Valutazione discriminazione: Scarsa
+
+== Domanda: heisenb ==
+Risposte corrette: 2 (66.67%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 1 (33.33%)
+Indice di difficoltà: 0.33 (0=facile, 1=difficile)
+Indice di discriminazione: 0.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Media
+Valutazione discriminazione: Scarsa
+
+== Domanda: legame_nuc ==
+Risposte corrette: 3 (100.0%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 0 (0.0%)
+Indice di difficoltà: 0.0 (0=facile, 1=difficile)
+Indice di discriminazione: 0.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Facile
+Valutazione discriminazione: Scarsa
+
+== Domanda: legame_nuc2 ==
+Risposte corrette: 3 (100.0%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 0 (0.0%)
+Indice di difficoltà: 0.0 (0=facile, 1=difficile)
+Indice di discriminazione: 0.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Facile
+Valutazione discriminazione: Scarsa
+
+== Domanda: radiolo ==
+Risposte corrette: 1 (33.33%)
+Risposte errate: 0 (0.0%)
+Risposte non date: 2 (66.67%)
+Indice di difficoltà: 0.67 (0=facile, 1=difficile)
+Indice di discriminazione: 1.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Media
+Valutazione discriminazione: Eccellente
+
+== Domanda: young ==
+Risposte corrette: 2 (66.67%)
+Risposte errate: 1 (33.33%)
+Risposte non date: 0 (0.0%)
+Indice di difficoltà: 0.33 (0=facile, 1=difficile)
+Indice di discriminazione: 1.0 (-1=negativo, 1=positivo)
+Valutazione difficoltà: Media
+Valutazione discriminazione: Eccellente
