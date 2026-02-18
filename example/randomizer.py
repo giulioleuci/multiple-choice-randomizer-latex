@@ -14,12 +14,8 @@ import scipy.stats as stats
 from collections import defaultdict
 
 # Importazioni PyLaTeX
-from pylatex import Document, Command, NoEscape, Package
-from pylatex.base_classes import Environment, CommandBase
-
-class LatexCustomCommand(CommandBase):
-    def __init__(self, command, arguments=None, options=None, extra_arguments=None):
-        super().__init__(command, arguments=arguments, options=options, extra_arguments=extra_arguments)
+from pylatex import Document, NoEscape, Package
+from pylatex.base_classes import Environment
 
 class Multicols(Environment):
     def __init__(self, columns):
@@ -183,16 +179,17 @@ class TestGeneratorAnalyzer:
             if answers:
                 # Utilizziamo il numero di colonne specificato per le alternative
                 num_cols_alternatives = question.get("num_columns_alternatives", 1)
+
                 # Se il numero di colonne è maggiore di 1, utilizziamo multicols
                 if num_cols_alternatives > 1:
-                    doc.append(NoEscape(r"\begin{multicols}{" + str(num_cols_alternatives) + "}"))
-                doc.append(NoEscape(r"\begin{choices}"))
+                    container = doc.create(Multicols(num_cols_alternatives))
+                else:
+                    container = doc
+
+                container.append(NoEscape(r"\begin{choices}"))
                 for ans in answers:
-                    doc.append(NoEscape(r"\choice " + ans["text"]))
-                doc.append(NoEscape(r"\end{choices}"))
-                # Se abbiamo usato multicols, chiudiamo l'ambiente
-                if num_cols_alternatives > 1:
-                    doc.append(NoEscape(r"\end{multicols}"))
+                    container.append(NoEscape(r"\choice " + ans["text"]))
+                container.append(NoEscape(r"\end{choices}"))
         doc.append(NoEscape(r"\end{questions}"))
 
         return doc
