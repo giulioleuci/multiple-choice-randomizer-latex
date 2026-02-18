@@ -523,10 +523,33 @@ class TestGeneratorAnalyzer:
         # Struttura: {sheet_name: {"correct": count, "wrong": count, "blank": count}}
         question_stats = defaultdict(lambda: {"correct": 0, "wrong": 0, "blank": 0})
 
-        # Per ogni studente
-        for index, row in self.student_responses.iterrows():
-            student_id = row.get("student_id")
-            variant_id = str(row.get("variant_id")).strip()
+        # Pre-calcola le mappe delle domande per ogni variante per evitare ricerche ripetute
+        variant_question_data_maps = {}
+        for variant in self.variants:
+            v_id = str(variant.get("variant_id"))
+            variant_question_data_maps[v_id] = {q["sheet_name"]: q for q in variant.get("questions", [])}
+
+        # Identifica gli indici delle colonne per un accesso più veloce con itertuples
+        columns = list(self.student_responses.columns)
+        col_to_idx = {col: i for i, col in enumerate(columns)}
+
+        try:
+            student_id_idx = col_to_idx["student_id"]
+            variant_id_idx = col_to_idx["variant_id"]
+        except KeyError as e:
+            print(f"Errore: Colonna obbligatoria mancante: {e}")
+            return
+
+        # Pre-calcola quali colonne sono colonne di risposta
+        answer_cols_indices = [
+            (i, col) for i, col in enumerate(columns)
+            if col not in ["student_id", "variant_id"]
+        ]
+
+        # Per ogni studente (usa itertuples per prestazioni migliori rispetto a iterrows)
+        for row in self.student_responses.itertuples(index=False):
+            student_id = row[student_id_idx]
+            variant_id = str(row[variant_id_idx]).strip()
 
             if variant_id not in self.variant_answer_keys or variant_id not in self.variant_question_mappings:
                 print(f"Attenzione: variante {variant_id} non trovata per lo studente {student_id}.")
@@ -535,15 +558,8 @@ class TestGeneratorAnalyzer:
             key_mapping = self.variant_answer_keys[variant_id]  # {numero_domanda: lettera}
             question_mapping = self.variant_question_mappings[variant_id]  # {numero_domanda: sheet_name}
 
-            # Cerca le domande originali per ottenere i punteggi
-            # Crea un dizionario {sheet_name: question_data} per un accesso più facile
-            question_data_map = {}
-            variant_questions = next((v["questions"] for v in self.variants if v["variant_id"] == variant_id), [])
-            for q in variant_questions:
-                question_data_map[q["sheet_name"]] = q
-
-            # Le colonne di risposta sono quelle diverse da 'student_id' e 'variant_id'
-            answer_cols = [col for col in row.index if col not in ["student_id", "variant_id"]]
+            # Recupera la mappa delle domande pre-calcolata per questa variante
+            question_data_map = variant_question_data_maps.get(variant_id, {})
 
             # Inizializza i contatori per i diversi tipi di risposte
             correct_count = 0
@@ -559,9 +575,10 @@ class TestGeneratorAnalyzer:
             # Dettaglio delle risposte per questo studente
             student_answers = {}
 
-            for col in answer_cols:
+            for idx, col in answer_cols_indices:
                 # Prende la risposta dello studente per questa domanda
-                student_ans = str(row.get(col, "")).strip()
+                val = row[idx]
+                student_ans = str(val if pd.notnull(val) else "").strip()
 
                 # Verifica se la colonna rappresenta un numero di domanda valido
                 if col in key_mapping and col in question_mapping:
@@ -588,7 +605,7 @@ class TestGeneratorAnalyzer:
                     max_possible_score += punto_corretta
 
                     # Analizza la risposta
-                    if pd.isna(row.get(col)) or student_ans == "":  # Risposta non data (cella vuota)
+                    if pd.isna(val) or student_ans == "":  # Risposta non data (cella vuota)
                         blank_count += 1
                         blank_score += punto_non_data
                         student_answers[col] = {"sheet": sheet_name, "response": "blank", "correct": correct_letter, "points": punto_non_data}
