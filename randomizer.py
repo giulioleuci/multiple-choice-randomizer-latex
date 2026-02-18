@@ -1204,6 +1204,13 @@ class TestGeneratorAnalyzer:
         # Ordina il DataFrame in ordine alfabetico per Student ID
         df_report = df_report.sort_values(by=["Student ID"], ascending=True)
 
+        # Sanitizzazione delle stringhe per prevenire Formula Injection in Excel
+        # Si premette un apice (') ai valori che iniziano con =, +, -, @
+        for col in df_report.select_dtypes(include=['object']).columns:
+            df_report[col] = df_report[col].apply(
+                lambda x: "'" + str(x) if isinstance(x, str) and x and x[0] in ('=', '+', '-', '@') else x
+            )
+
         # Salva il DataFrame in un file Excel
         df_report.to_excel("report_students_summary.xlsx", index=False)
 
