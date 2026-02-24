@@ -523,6 +523,16 @@ class TestGeneratorAnalyzer:
         # Struttura: {sheet_name: {"correct": count, "wrong": count, "blank": count}}
         question_stats = defaultdict(lambda: {"correct": 0, "wrong": 0, "blank": 0})
 
+        # Precompute question data maps for all variants
+        # Crea un dizionario {variant_id: {sheet_name: question_data}} per un accesso più facile e veloce
+        variant_question_data_maps = {}
+        for variant in self.variants:
+            v_id = variant.get("variant_id")
+            q_map = {}
+            for q in variant.get("questions", []):
+                q_map[q["sheet_name"]] = q
+            variant_question_data_maps[v_id] = q_map
+
         # Per ogni studente
         for index, row in self.student_responses.iterrows():
             student_id = row.get("student_id")
@@ -536,11 +546,7 @@ class TestGeneratorAnalyzer:
             question_mapping = self.variant_question_mappings[variant_id]  # {numero_domanda: sheet_name}
 
             # Cerca le domande originali per ottenere i punteggi
-            # Crea un dizionario {sheet_name: question_data} per un accesso più facile
-            question_data_map = {}
-            variant_questions = next((v["questions"] for v in self.variants if v["variant_id"] == variant_id), [])
-            for q in variant_questions:
-                question_data_map[q["sheet_name"]] = q
+            question_data_map = variant_question_data_maps.get(variant_id, {})
 
             # Le colonne di risposta sono quelle diverse da 'student_id' e 'variant_id'
             answer_cols = [col for col in row.index if col not in ["student_id", "variant_id"]]
