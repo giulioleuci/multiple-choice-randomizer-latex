@@ -9,7 +9,6 @@ import numpy as np
 import copy
 import argparse
 import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
 import scipy.stats as stats
 from collections import defaultdict
 
