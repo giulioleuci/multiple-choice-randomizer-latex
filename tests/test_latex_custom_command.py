@@ -17,7 +17,6 @@ def latex_custom_command_class():
         "pylatex.base_classes": MagicMock(),
         "matplotlib": MagicMock(),
         "matplotlib.pyplot": MagicMock(),
-        "matplotlib.colors": MagicMock(),
         "scipy": MagicMock(),
         "scipy.stats": MagicMock(),
         "numpy": MagicMock(),
