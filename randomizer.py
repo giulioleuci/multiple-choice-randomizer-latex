@@ -151,7 +151,7 @@ class TestGeneratorAnalyzer:
                 doc.append(NoEscape(r"\vspace{0.3em}"))
 
     def _generate_latex_for_variant(self, variant_data):
-        """
+        r"""
         Genera un documento LaTeX per una variante del test.
         Per ogni domanda, emette il comando \question con il testo preso così com'è.
         Se sono presenti risposte, viene creato l'ambiente choices con il numero di colonne specificato.
