@@ -151,7 +151,7 @@ class TestGeneratorAnalyzer:
                 doc.append(NoEscape(r"\vspace{0.3em}"))
 
     def _generate_latex_for_variant(self, variant_data):
-        """
+        r"""
         Genera un documento LaTeX per una variante del test.
         Per ogni domanda, emette il comando \question con il testo preso così com'è.
         Se sono presenti risposte, viene creato l'ambiente choices con il numero di colonne specificato.
@@ -357,19 +357,21 @@ class TestGeneratorAnalyzer:
             question_order_scores.append(diff_count / num_questions)
         question_order_randomness = np.mean(question_order_scores)
         answer_positions = {}
+        q_alternatives = {}
         for variant in variants:
             for question in variant["questions"]:
                 q_text = question["question_text"]
                 correct_index = next((i for i, ans in enumerate(question["answers"]) if ans.get("is_correct", False)), 0)
                 if q_text not in answer_positions:
                     answer_positions[q_text] = []
+                    q_alternatives[q_text] = len(question["answers"])
                 answer_positions[q_text].append(correct_index)
         normalized_stds = []
         for q_text, positions in answer_positions.items():
             arr = np.array(positions)
             if len(arr) > 1 and (max(arr) - min(arr)) > 0:
                 std = np.std(arr)
-                n_alternatives = next((len(q["answers"]) for variant in variants for q in variant["questions"] if q["question_text"] == q_text), 1)
+                n_alternatives = q_alternatives.get(q_text, 1)
                 norm_std = std / (n_alternatives - 1) if n_alternatives > 1 else 0
                 normalized_stds.append(norm_std)
             else:
