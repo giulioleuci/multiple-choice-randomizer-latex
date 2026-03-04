@@ -1147,6 +1147,21 @@ class TestGeneratorAnalyzer:
 
         print("Report consolidato degli studenti generato correttamente.")
 
+    def _sanitize_for_excel(self, value):
+        """
+        Sanitizza una stringa per prevenire Formula Injection in Excel.
+        Si premette un apice (') ai valori che iniziano con caratteri di comando (=, +, -, @, \t, \r)
+        anche se preceduti da spazi bianchi.
+        """
+        if isinstance(value, str) and value:
+            # Caratteri che possono attivare formule o comportamenti indesiderati in Excel
+            triggers = ('=', '+', '-', '@', '\t', '\r')
+            # Controlla l'inizio della stringa originale e della stringa senza spazi iniziali
+            stripped = value.lstrip()
+            if value[0] in triggers or (stripped and stripped[0] in triggers):
+                return "'" + value
+        return value
+
     def generate_student_excel_report(self):
         """
         Genera un file Excel con il riepilogo dei risultati degli studenti.
@@ -1212,11 +1227,8 @@ class TestGeneratorAnalyzer:
         df_report = df_report.sort_values(by=["Student ID"], ascending=True)
 
         # Sanitizzazione delle stringhe per prevenire Formula Injection in Excel
-        # Si premette un apice (') ai valori che iniziano con =, +, -, @
         for col in df_report.select_dtypes(include=['object']).columns:
-            df_report[col] = df_report[col].apply(
-                lambda x: "'" + str(x) if isinstance(x, str) and x and x[0] in ('=', '+', '-', '@') else x
-            )
+            df_report[col] = df_report[col].apply(self._sanitize_for_excel)
 
         # Salva il DataFrame in un file Excel
         df_report.to_excel("report_students_summary.xlsx", index=False)
