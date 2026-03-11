@@ -1171,12 +1171,12 @@ class TestGeneratorAnalyzer:
             print("Nessun risultato disponibile per generare il report Excel.")
             return
 
-        # Crea un DataFrame vuoto per il report
+        # Crea una lista di righe per il report
+        rows = []
         columns = [
             "Student ID", "Var", "Corr", "Err", "ND", "P.Corr", "P.Err", "P.ND",
             "Tot", "Max", "%", "%*10 (0.25)", "%ile", "Z", "Stanine", "answers"
         ]
-        df_report = pd.DataFrame(columns=columns)
 
         # Aggiungi i dati di ogni studente
         for student_id, result in self.test_results.items():
@@ -1220,7 +1220,10 @@ class TestGeneratorAnalyzer:
                 "Stanine": result.get("stanine", ""),
                 "answers": answers_string
             }
-            df_report = df_report._append(row, ignore_index=True)
+            rows.append(row)
+
+        # Crea il DataFrame a partire dalla lista di righe, assicurando le colonne corrette
+        df_report = pd.DataFrame(rows, columns=columns)
 
         # Ordina il DataFrame in ordine alfabetico per Student ID
         df_report = df_report.sort_values(by=["Student ID"], ascending=True)
