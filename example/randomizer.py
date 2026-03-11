@@ -207,7 +207,7 @@ class TestGeneratorAnalyzer:
             latex_obj.generate_tex(output_filename_base)
             for _ in range(2):
                 subprocess.run(
-                    ["pdflatex", "-interaction=nonstopmode", f"-output-directory=tests_pdf", tex_filename],
+                    ["pdflatex", "-no-shell-escape", "-interaction=nonstopmode", f"-output-directory=tests_pdf", tex_filename],
                     capture_output=True,
                     text=True
                 )
