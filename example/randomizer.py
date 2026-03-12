@@ -751,6 +751,19 @@ class TestGeneratorAnalyzer:
             print("Nessuna statistica delle domande da analizzare.")
             return
 
+        # Indice di discriminazione (correlazione tra risposte corrette a questa domanda e punteggio totale)
+        # Dividi gli studenti in gruppi alto/basso in base al punteggio totale
+        student_scores = [(student_id, result) for student_id, result in self.test_results.items()]
+        student_scores.sort(key=lambda x: x[1]["total_score"], reverse=True)
+
+        # Prendi il 27% superiore e inferiore
+        n = len(student_scores)
+        upper_n = max(1, int(n * 0.27))
+        lower_n = max(1, int(n * 0.27))
+
+        upper_group = student_scores[:upper_n]
+        lower_group = student_scores[-lower_n:]
+
         # Per ogni domanda, calcola statistiche aggiuntive
         for sheet_name, stats in self.question_analytics.items():
             total_answers = stats["correct"] + stats["wrong"] + stats["blank"]
@@ -764,19 +777,6 @@ class TestGeneratorAnalyzer:
 
             # Indice di difficoltà (più alto = più difficile)
             difficulty = 1.0 - (stats["correct"] / total_answers)
-
-            # Indice di discriminazione (correlazione tra risposte corrette a questa domanda e punteggio totale)
-            # Dividi gli studenti in gruppi alto/basso in base al punteggio totale
-            student_scores = [(student_id, result) for student_id, result in self.test_results.items()]
-            student_scores.sort(key=lambda x: x[1]["total_score"], reverse=True)
-
-            # Prendi il 27% superiore e inferiore
-            n = len(student_scores)
-            upper_n = max(1, int(n * 0.27))
-            lower_n = max(1, int(n * 0.27))
-
-            upper_group = student_scores[:upper_n]
-            lower_group = student_scores[-lower_n:]
 
             # Conta quanti in ogni gruppo hanno risposto correttamente a questa domanda
             upper_correct = 0
