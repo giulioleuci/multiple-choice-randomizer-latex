@@ -1,5 +1,5 @@
 import pandas as pd
-import random
+import secrets
 import subprocess
 import os
 import json
@@ -326,11 +326,12 @@ class TestGeneratorAnalyzer:
             print("Nessuna domanda caricata.")
             return []
         variants = []
+        secure_random = secrets.SystemRandom()
         for i in range(num_variants):
             variant_questions = copy.deepcopy(self.questions_data)
-            random.shuffle(variant_questions)
+            secure_random.shuffle(variant_questions)
             for question in variant_questions:
-                random.shuffle(question["answers"])
+                secure_random.shuffle(question["answers"])
             variant = {
                 "variant_id": str(i + 1),
                 "questions": variant_questions
