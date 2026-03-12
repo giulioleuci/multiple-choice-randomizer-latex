@@ -91,7 +91,31 @@ class TestGeneratorAnalyzer:
 
         # Configurazione avanzata per l'ambiente delle domande per evitare sovrapposizioni
         doc.preamble.append(NoEscape(r"\renewcommand{\questionlabel}{\thequestion.\hspace{0.5em}}"))
-        doc.preamble.append(NoEscape(r"\renewcommand{\choicelabel}{(\alph{choice})\hspace{0.3em}}"))
+
+        # Format della label
+        label_format = self.config.get("choice_label_format", "letters_upper")
+        if label_format == "letters_upper":
+            format_cmd = r"\Alph{choice}"
+        elif label_format == "letters_lower":
+            format_cmd = r"\alph{choice}"
+        elif label_format == "numbers":
+            format_cmd = r"\arabic{choice}"
+        else:
+            format_cmd = r"\Alph{choice}"
+
+        # Stile della label
+        label_style = self.config.get("choice_label_style", "normal")
+        if label_style == "bold":
+            style_open = r"\textbf{"
+            style_close = r"}"
+        elif label_style == "italic":
+            style_open = r"\textit{"
+            style_close = r"}"
+        else:
+            style_open = ""
+            style_close = ""
+
+        doc.preamble.append(NoEscape(rf"\renewcommand{{\choicelabel}}{{{style_open}({format_cmd}){style_close}\hspace{{0.3em}}}}"))
 
         # Definizione del comando \um
         doc.preamble.append(NoEscape(r"\newcommand{\um}[2]{\SI[output-decimal-marker={,}]{#1}{#2}}"))
