@@ -713,6 +713,23 @@ class TestGeneratorAnalyzer:
         else:
             return "S+"
 
+    def _calculate_student_metrics(self, student_id, result, avg_score, std_dev, scores, stanine_boundaries):
+        # Calcola il z-score per vedere quanto si discosta dalla media
+        z_score = (result["total_score"] - avg_score) / std_dev if std_dev != 0 else 0
+
+        # Calcola il percentile
+        percentile = stats.percentileofscore(scores, result["total_score"])
+
+        # Calcola il punteggio stanine
+        stanine = self._calculate_stanine(result["total_score"], stanine_boundaries)
+
+        # Aggiungi queste metriche ai risultati dello studente
+        self.test_results[student_id].update({
+            "z_score": round(z_score, 2),
+            "percentile": round(percentile, 2),
+            "stanine": stanine
+        })
+
     def analyze_results(self):
         """
         Calcola statistiche avanzate sui risultati del test.
@@ -733,24 +750,12 @@ class TestGeneratorAnalyzer:
         # Calcola le statistiche di base e le popola in analysis_results
         avg_score, std_dev = self._calculate_basic_statistics(scores, percentages)
 
+        # Calcola i limiti per lo stanine una sola volta fuori dal ciclo
+        stanine_boundaries = np.percentile(scores, [4, 11, 23, 40, 60, 77, 89, 96])
+
         # Calcola metriche aggiuntive per ogni studente
         for student_id, result in self.test_results.items():
-            # Calcola il z-score per vedere quanto si discosta dalla media
-            z_score = (result["total_score"] - avg_score) / std_dev if std_dev != 0 else 0
-
-            # Calcola il percentile
-            percentile = stats.percentileofscore(scores, result["total_score"])
-
-            # Calcola il punteggio stanine (dividendo i punteggi in 9 gruppi)
-            stanine_boundaries = np.percentile(scores, [4, 11, 23, 40, 60, 77, 89, 96])
-            stanine = self._calculate_stanine(result["total_score"], stanine_boundaries)
-
-            # Aggiungi queste metriche ai risultati dello studente
-            self.test_results[student_id].update({
-                "z_score": round(z_score, 2),
-                "percentile": round(percentile, 2),
-                "stanine": stanine
-            })
+            self._calculate_student_metrics(student_id, result, avg_score, std_dev, scores, stanine_boundaries)
 
         print("Analisi dei risultati completata.")
         print(f"Punteggio medio: {self.analysis_results['average_score']}")
