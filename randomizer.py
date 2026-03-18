@@ -230,6 +230,70 @@ class TestGeneratorAnalyzer:
                 except OSError:
                     print(f"Impossibile rimuovere il file temporaneo: {temp_file}")
 
+    def _parse_row(self, selected_row, sheet_name, df_columns):
+        """
+        Estrae i dati di una singola domanda a partire dalla riga selezionata.
+        """
+        question_text = str(selected_row["Testo della domanda"]).strip()
+        correct_answer_text = str(selected_row["Risposta corretta"]).strip()
+        distractors = []
+        for col in df_columns:
+            if col.lower().startswith("alternativa"):
+                val = selected_row.get(col, "")
+                if pd.notnull(val):
+                    alt_text = str(val).strip()
+                    if alt_text and (alt_text != correct_answer_text):
+                        distractors.append(alt_text)
+        answers = [{"text": correct_answer_text, "is_correct": True}]
+        for dist in distractors:
+            answers.append({"text": dist, "is_correct": False})
+        num_cols_altern = 1
+        if "Numero Colonne Alternative" in df_columns:
+            val_num = selected_row.get("Numero Colonne Alternative", 1)
+            try:
+                num_cols_altern = int(val_num)
+            except Exception:
+                num_cols_altern = 1
+
+        # Carica i punteggi specifici per questa domanda (o usa i default)
+        punteggio_corretta = None
+        punteggio_errata = None
+        punteggio_non_data = None
+
+        if "Punteggio corretta" in df_columns:
+            val = selected_row.get("Punteggio corretta")
+            if pd.notnull(val):
+                try:
+                    punteggio_corretta = float(val)
+                except (ValueError, TypeError):
+                    pass
+
+        if "Punteggio errata" in df_columns:
+            val = selected_row.get("Punteggio errata")
+            if pd.notnull(val):
+                try:
+                    punteggio_errata = float(val)
+                except (ValueError, TypeError):
+                    pass
+
+        if "Punteggio non data" in df_columns:
+            val = selected_row.get("Punteggio non data")
+            if pd.notnull(val):
+                try:
+                    punteggio_non_data = float(val)
+                except (ValueError, TypeError):
+                    pass
+
+        return {
+            "question_text": question_text,
+            "sheet_name": sheet_name,
+            "num_columns_alternatives": num_cols_altern,
+            "answers": answers,
+            "punteggio_corretta": punteggio_corretta,
+            "punteggio_errata": punteggio_errata,
+            "punteggio_non_data": punteggio_non_data
+        }
+
     def load_questions_from_excel(self, filename):
         """
         Per ogni scheda (foglio) del file Excel, seleziona una sola riga valida (dove sono presenti
@@ -247,65 +311,7 @@ class TestGeneratorAnalyzer:
                     print(f"Foglio '{sheet_name}': nessuna riga valida trovata.")
                     continue
                 selected_row = valid_df.sample(n=1).iloc[0]
-                question_text = str(selected_row["Testo della domanda"]).strip()
-                correct_answer_text = str(selected_row["Risposta corretta"]).strip()
-                distractors = []
-                for col in df.columns:
-                    if col.lower().startswith("alternativa"):
-                        val = selected_row.get(col, "")
-                        if pd.notnull(val):
-                            alt_text = str(val).strip()
-                            if alt_text and (alt_text != correct_answer_text):
-                                distractors.append(alt_text)
-                answers = [{"text": correct_answer_text, "is_correct": True}]
-                for dist in distractors:
-                    answers.append({"text": dist, "is_correct": False})
-                num_cols_altern = 1
-                if "Numero Colonne Alternative" in df.columns:
-                    val_num = selected_row.get("Numero Colonne Alternative", 1)
-                    try:
-                        num_cols_altern = int(val_num)
-                    except Exception:
-                        num_cols_altern = 1
-
-                # Carica i punteggi specifici per questa domanda (o usa i default)
-                punteggio_corretta = None
-                punteggio_errata = None
-                punteggio_non_data = None
-
-                if "Punteggio corretta" in df.columns:
-                    val = selected_row.get("Punteggio corretta")
-                    if pd.notnull(val):
-                        try:
-                            punteggio_corretta = float(val)
-                        except (ValueError, TypeError):
-                            pass
-
-                if "Punteggio errata" in df.columns:
-                    val = selected_row.get("Punteggio errata")
-                    if pd.notnull(val):
-                        try:
-                            punteggio_errata = float(val)
-                        except (ValueError, TypeError):
-                            pass
-
-                if "Punteggio non data" in df.columns:
-                    val = selected_row.get("Punteggio non data")
-                    if pd.notnull(val):
-                        try:
-                            punteggio_non_data = float(val)
-                        except (ValueError, TypeError):
-                            pass
-
-                question = {
-                    "question_text": question_text,
-                    "sheet_name": sheet_name,
-                    "num_columns_alternatives": num_cols_altern,
-                    "answers": answers,
-                    "punteggio_corretta": punteggio_corretta,
-                    "punteggio_errata": punteggio_errata,
-                    "punteggio_non_data": punteggio_non_data
-                }
+                question = self._parse_row(selected_row, sheet_name, df.columns)
                 self.questions_data.append(question)
             self.original_questions_order = [q["question_text"] for q in self.questions_data]
             print(f"Domande caricate da '{filename}': {len(self.questions_data)} domande trovate.")
