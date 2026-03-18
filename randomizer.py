@@ -12,7 +12,7 @@ import scipy.stats as stats
 from collections import defaultdict
 
 # Importazioni PyLaTeX
-from pylatex import Document, Command, NoEscape, Package
+from pylatex import Document, NoEscape, Package
 from pylatex.base_classes import Environment
 
 class Multicols(Environment):
