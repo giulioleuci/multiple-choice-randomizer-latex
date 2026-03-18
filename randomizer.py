@@ -987,20 +987,36 @@ class TestGeneratorAnalyzer:
         results_df = pd.DataFrame.from_dict(self.test_results, orient='index')
         results_df = results_df.sort_values(by='total_score', ascending=False)
 
-        for student_id, row in results_df.iterrows():
-            variant = row['variant_id']
-            corr_count = row['correct_count']
-            wrong_count = row['wrong_count']
-            blank_count = row['blank_count']
-            corr_score = row['correct_score']
-            wrong_score = row['wrong_score']
-            blank_score = row['blank_score']
-            tot_score = row['total_score']
-            max_score = row['max_possible_score']
-            percentage = row['percentage']
-            percentile = row.get('percentile', 0)
-            z_score = row.get('z_score', 0)
-            stanine = row.get('stanine', '')
+        columns = list(results_df.columns)
+        idx_variant_id = columns.index('variant_id') + 1
+        idx_correct_count = columns.index('correct_count') + 1
+        idx_wrong_count = columns.index('wrong_count') + 1
+        idx_blank_count = columns.index('blank_count') + 1
+        idx_correct_score = columns.index('correct_score') + 1
+        idx_wrong_score = columns.index('wrong_score') + 1
+        idx_blank_score = columns.index('blank_score') + 1
+        idx_total_score = columns.index('total_score') + 1
+        idx_max_possible_score = columns.index('max_possible_score') + 1
+        idx_percentage = columns.index('percentage') + 1
+        idx_percentile = columns.index('percentile') + 1 if 'percentile' in columns else None
+        idx_z_score = columns.index('z_score') + 1 if 'z_score' in columns else None
+        idx_stanine = columns.index('stanine') + 1 if 'stanine' in columns else None
+
+        for row in results_df.itertuples(name=None):
+            student_id = row[0]
+            variant = row[idx_variant_id]
+            corr_count = row[idx_correct_count]
+            wrong_count = row[idx_wrong_count]
+            blank_count = row[idx_blank_count]
+            corr_score = row[idx_correct_score]
+            wrong_score = row[idx_wrong_score]
+            blank_score = row[idx_blank_score]
+            tot_score = row[idx_total_score]
+            max_score = row[idx_max_possible_score]
+            percentage = row[idx_percentage]
+            percentile = row[idx_percentile] if idx_percentile is not None else 0
+            z_score = row[idx_z_score] if idx_z_score is not None else 0
+            stanine = row[idx_stanine] if idx_stanine is not None else ''
 
             line = f"{student_id} | {variant} | {corr_count} | {wrong_count} | {blank_count} | "
             line += f"{corr_score} | {wrong_score} | {blank_score} | {tot_score} | {max_score} | "
