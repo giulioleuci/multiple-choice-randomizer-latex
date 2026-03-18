@@ -652,50 +652,28 @@ class TestGeneratorAnalyzer:
             "variant_id": variant_id
         }
 
-    def analyze_results(self):
-        """
-        Calcola statistiche avanzate sui risultati del test.
-        """
-        if not self.test_results:
-            print("Nessun risultato da analizzare.")
-            return
 
-        # Statistiche di base
-        scores = [res["total_score"] for res in self.test_results.values()]
-        percentages = [res["percentage"] for res in self.test_results.values()]
-        max_scores = [res["max_possible_score"] for res in self.test_results.values()]
-
-        # Verifica che ci siano dati validi
-        if not scores:
-            print("Nessun dato valido per l'analisi.")
-            return
-
-        # Statistiche descrittive
+    def _calculate_basic_statistics(self, scores, percentages):
         avg_score = np.mean(scores)
         med_score = np.median(scores)
         std_dev = np.std(scores)
         min_score = min(scores)
         max_score = max(scores)
 
-        # Percentuale studenti sopra la soglia
-        threshold = self.passing_threshold * 100  # Converti in percentuale
+        threshold = self.passing_threshold * 100
         passed = sum(1 for p in percentages if p >= threshold)
         pass_rate = round((passed / len(percentages)) * 100, 2) if percentages else 0
 
-        # Calcola la distribuzione in quartili
         quartiles = np.percentile(scores, [25, 50, 75])
 
-        # Calcola la media dei punteggi per tipo di risposta
         avg_correct = np.mean([res["correct_score"] for res in self.test_results.values()])
         avg_wrong = np.mean([res["wrong_score"] for res in self.test_results.values()])
         avg_blank = np.mean([res["blank_score"] for res in self.test_results.values()])
 
-        # Calcola il numero medio di risposte corrette, errate e non date
         avg_correct_count = np.mean([res["correct_count"] for res in self.test_results.values()])
         avg_wrong_count = np.mean([res["wrong_count"] for res in self.test_results.values()])
         avg_blank_count = np.mean([res["blank_count"] for res in self.test_results.values()])
 
-        # Salva le statistiche di analisi
         self.analysis_results = {
             "num_students": len(scores),
             "average_score": round(avg_score, 2),
@@ -713,6 +691,47 @@ class TestGeneratorAnalyzer:
             "avg_wrong_count": round(avg_wrong_count, 2),
             "avg_blank_count": round(avg_blank_count, 2)
         }
+        return avg_score, std_dev
+
+    def _calculate_stanine(self, score, boundaries):
+        if score < boundaries[0]:
+            return "F-"
+        elif score < boundaries[1]:
+            return "F"
+        elif score < boundaries[2]:
+            return "E"
+        elif score < boundaries[3]:
+            return "D"
+        elif score < boundaries[4]:
+            return "C"
+        elif score < boundaries[5]:
+            return "B"
+        elif score < boundaries[6]:
+            return "A"
+        elif score < boundaries[7]:
+            return "S"
+        else:
+            return "S+"
+
+    def analyze_results(self):
+        """
+        Calcola statistiche avanzate sui risultati del test.
+        """
+        if not self.test_results:
+            print("Nessun risultato da analizzare.")
+            return
+
+        # Statistiche di base
+        scores = [res["total_score"] for res in self.test_results.values()]
+        percentages = [res["percentage"] for res in self.test_results.values()]
+
+        # Verifica che ci siano dati validi
+        if not scores:
+            print("Nessun dato valido per l'analisi.")
+            return
+
+        # Calcola le statistiche di base e le popola in analysis_results
+        avg_score, std_dev = self._calculate_basic_statistics(scores, percentages)
 
         # Calcola metriche aggiuntive per ogni studente
         for student_id, result in self.test_results.items():
@@ -723,26 +742,8 @@ class TestGeneratorAnalyzer:
             percentile = stats.percentileofscore(scores, result["total_score"])
 
             # Calcola il punteggio stanine (dividendo i punteggi in 9 gruppi)
-            # "S+, S, A, B, C, D, E, F, F-"
             stanine_boundaries = np.percentile(scores, [4, 11, 23, 40, 60, 77, 89, 96])
-            if result["total_score"] < stanine_boundaries[0]:
-                stanine = "F-"
-            elif result["total_score"] < stanine_boundaries[1]:
-                stanine = "F"
-            elif result["total_score"] < stanine_boundaries[2]:
-                stanine = "E"
-            elif result["total_score"] < stanine_boundaries[3]:
-                stanine = "D"
-            elif result["total_score"] < stanine_boundaries[4]:
-                stanine = "C"
-            elif result["total_score"] < stanine_boundaries[5]:
-                stanine = "B"
-            elif result["total_score"] < stanine_boundaries[6]:
-                stanine = "A"
-            elif result["total_score"] < stanine_boundaries[7]:
-                stanine = "S"
-            else:
-                stanine = "S+"
+            stanine = self._calculate_stanine(result["total_score"], stanine_boundaries)
 
             # Aggiungi queste metriche ai risultati dello studente
             self.test_results[student_id].update({
