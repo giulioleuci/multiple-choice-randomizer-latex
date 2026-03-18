@@ -1115,15 +1115,10 @@ class TestGeneratorAnalyzer:
             f.write("\n".join(lines))
         print("Report sintetico per l'insegnante generato su 'teacher_report.txt'.")
 
-    def generate_student_reports(self):
+    def _generate_student_report_text(self) -> str:
         """
-        Genera un unico report consolidato per tutti gli studenti in 'report_students_detailed.txt'.
-        Include dettagli completi per ciascuno studente.
+        Genera il testo per il report consolidato degli studenti.
         """
-        if not self.test_results:
-            print("Nessun risultato disponibile per generare i report degli studenti.")
-            return
-
         # Prepara le linee di testo per il report consolidato
         all_lines = ["=== Report Dettagliato degli Studenti ===\n"]
 
@@ -1172,9 +1167,22 @@ class TestGeneratorAnalyzer:
             # Aggiungi le linee di questo studente al report consolidato
             all_lines.extend(lines)
 
+        return "\n".join(all_lines)
+
+    def generate_student_reports(self):
+        """
+        Genera un unico report consolidato per tutti gli studenti in 'report_students_detailed.txt'.
+        Include dettagli completi per ciascuno studente.
+        """
+        if not self.test_results:
+            print("Nessun risultato disponibile per generare i report degli studenti.")
+            return
+
+        report_text = self._generate_student_report_text()
+
         # Salva il report consolidato su file
         with open("report_students_detailed.txt", "w", encoding="utf-8") as f:
-            f.write("\n".join(all_lines))
+            f.write(report_text)
 
         # Crea anche il file Excel con il riepilogo
         self.generate_student_excel_report()
