@@ -544,89 +544,13 @@ class TestGeneratorAnalyzer:
             # Cerca le domande originali per ottenere i punteggi
             question_data_map = variant_question_data_maps.get(variant_id, {})
 
-            # Le colonne di risposta sono quelle diverse da 'student_id' e 'variant_id'
-            answer_cols = [col for col in row.index if col not in ["student_id", "variant_id"]]
-
-            # Inizializza i contatori per i diversi tipi di risposte
-            correct_count = 0
-            wrong_count = 0
-            blank_count = 0
-
-            # Inizializza i punteggi
-            correct_score = 0
-            wrong_score = 0
-            blank_score = 0
-            max_possible_score = 0
-
-            # Dettaglio delle risposte per questo studente
-            student_answers = {}
-
-            for col in answer_cols:
-                # Prende la risposta dello studente per questa domanda
-                student_ans = str(row.get(col, "")).strip()
-
-                # Verifica se la colonna rappresenta un numero di domanda valido
-                if col in key_mapping and col in question_mapping:
-                    correct_letter = key_mapping[col]
-                    sheet_name = question_mapping[col]
-
-                    # Recupera i dati della domanda per i punteggi personalizzati
-                    question_data = question_data_map.get(sheet_name, {})
-
-                    # Determina i punteggi da usare (personalizzati o default)
-                    punto_corretta = question_data.get("punteggio_corretta")
-                    if punto_corretta is None:
-                        punto_corretta = self.default_correct_score
-
-                    punto_errata = question_data.get("punteggio_errata")
-                    if punto_errata is None:
-                        punto_errata = self.default_wrong_score
-
-                    punto_non_data = question_data.get("punteggio_non_data")
-                    if punto_non_data is None:
-                        punto_non_data = self.default_no_answer_score
-
-                    # Calcola il punteggio massimo possibile per questa domanda
-                    max_possible_score += punto_corretta
-
-                    # Analizza la risposta
-                    if pd.isna(row.get(col)) or student_ans == "":  # Risposta non data (cella vuota)
-                        blank_count += 1
-                        blank_score += punto_non_data
-                        student_answers[col] = {"sheet": sheet_name, "response": "blank", "correct": correct_letter, "points": punto_non_data}
-                        # Aggiorna le statistiche per questa domanda
-                        question_stats[sheet_name]["blank"] += 1
-                    elif student_ans.upper() == correct_letter.upper():  # Risposta corretta
-                        correct_count += 1
-                        correct_score += punto_corretta
-                        student_answers[col] = {"sheet": sheet_name, "response": student_ans, "correct": correct_letter, "points": punto_corretta}
-                        # Aggiorna le statistiche per questa domanda
-                        question_stats[sheet_name]["correct"] += 1
-                    else:  # Risposta errata
-                        wrong_count += 1
-                        wrong_score += punto_errata
-                        student_answers[col] = {"sheet": sheet_name, "response": student_ans, "correct": correct_letter, "points": punto_errata}
-                        # Aggiorna le statistiche per questa domanda
-                        question_stats[sheet_name]["wrong"] += 1
-
-            # Calcola il punteggio totale e la percentuale
-            total_score = correct_score + wrong_score + blank_score
-            percentage = round((total_score / max_possible_score) * 100, 2) if max_possible_score > 0 else 0
+            # Corregge il test per questo singolo studente
+            result = self._score_single_student(
+                row, variant_id, key_mapping, question_mapping, question_data_map, question_stats
+            )
 
             # Salva i risultati per questo studente
-            self.test_results[student_id] = {
-                "correct_count": correct_count,
-                "wrong_count": wrong_count,
-                "blank_count": blank_count,
-                "correct_score": correct_score,
-                "wrong_score": wrong_score,
-                "blank_score": blank_score,
-                "total_score": total_score,
-                "max_possible_score": max_possible_score,
-                "percentage": percentage,
-                "answers": student_answers,
-                "variant_id": variant_id
-            }
+            self.test_results[student_id] = result
 
         # Memorizza le statistiche delle domande per l'analisi successiva
         self.question_analytics = dict(question_stats)
@@ -634,6 +558,93 @@ class TestGeneratorAnalyzer:
         print("Correzione dei test completata. Risultati per studente:")
         for stud, res in self.test_results.items():
             print(f"Studente {stud}: {res['total_score']} su {res['max_possible_score']} ({res['percentage']}%)")
+
+    def _score_single_student(self, row, variant_id, key_mapping, question_mapping, question_data_map, question_stats):
+        """
+        Calcola i punteggi per un singolo studente e aggiorna le statistiche delle domande in question_stats.
+        """
+        # Le colonne di risposta sono quelle diverse da 'student_id' e 'variant_id'
+        answer_cols = [col for col in row.index if col not in ["student_id", "variant_id"]]
+
+        # Inizializza i contatori per i diversi tipi di risposte
+        correct_count = 0
+        wrong_count = 0
+        blank_count = 0
+
+        # Inizializza i punteggi
+        correct_score = 0
+        wrong_score = 0
+        blank_score = 0
+        max_possible_score = 0
+
+        # Dettaglio delle risposte per questo studente
+        student_answers = {}
+
+        for col in answer_cols:
+            # Prende la risposta dello studente per questa domanda
+            student_ans = str(row.get(col, "")).strip()
+
+            # Verifica se la colonna rappresenta un numero di domanda valido
+            if col in key_mapping and col in question_mapping:
+                correct_letter = key_mapping[col]
+                sheet_name = question_mapping[col]
+
+                # Recupera i dati della domanda per i punteggi personalizzati
+                question_data = question_data_map.get(sheet_name, {})
+
+                # Determina i punteggi da usare (personalizzati o default)
+                punto_corretta = question_data.get("punteggio_corretta")
+                if punto_corretta is None:
+                    punto_corretta = self.default_correct_score
+
+                punto_errata = question_data.get("punteggio_errata")
+                if punto_errata is None:
+                    punto_errata = self.default_wrong_score
+
+                punto_non_data = question_data.get("punteggio_non_data")
+                if punto_non_data is None:
+                    punto_non_data = self.default_no_answer_score
+
+                # Calcola il punteggio massimo possibile per questa domanda
+                max_possible_score += punto_corretta
+
+                # Analizza la risposta
+                if pd.isna(row.get(col)) or student_ans == "":  # Risposta non data (cella vuota)
+                    blank_count += 1
+                    blank_score += punto_non_data
+                    student_answers[col] = {"sheet": sheet_name, "response": "blank", "correct": correct_letter, "points": punto_non_data}
+                    # Aggiorna le statistiche per questa domanda
+                    question_stats[sheet_name]["blank"] += 1
+                elif student_ans.upper() == correct_letter.upper():  # Risposta corretta
+                    correct_count += 1
+                    correct_score += punto_corretta
+                    student_answers[col] = {"sheet": sheet_name, "response": student_ans, "correct": correct_letter, "points": punto_corretta}
+                    # Aggiorna le statistiche per questa domanda
+                    question_stats[sheet_name]["correct"] += 1
+                else:  # Risposta errata
+                    wrong_count += 1
+                    wrong_score += punto_errata
+                    student_answers[col] = {"sheet": sheet_name, "response": student_ans, "correct": correct_letter, "points": punto_errata}
+                    # Aggiorna le statistiche per questa domanda
+                    question_stats[sheet_name]["wrong"] += 1
+
+        # Calcola il punteggio totale e la percentuale
+        total_score = correct_score + wrong_score + blank_score
+        percentage = round((total_score / max_possible_score) * 100, 2) if max_possible_score > 0 else 0
+
+        return {
+            "correct_count": correct_count,
+            "wrong_count": wrong_count,
+            "blank_count": blank_count,
+            "correct_score": correct_score,
+            "wrong_score": wrong_score,
+            "blank_score": blank_score,
+            "total_score": total_score,
+            "max_possible_score": max_possible_score,
+            "percentage": percentage,
+            "answers": student_answers,
+            "variant_id": variant_id
+        }
 
     def analyze_results(self):
         """
