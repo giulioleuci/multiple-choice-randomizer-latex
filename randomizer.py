@@ -241,10 +241,9 @@ class TestGeneratorAnalyzer:
         Il nome della scheda viene salvato (ma non aggiunto al testo nel PDF).
         """
         try:
-            xls = pd.ExcelFile(filename)
+            all_sheets = pd.read_excel(filename, sheet_name=None)
             self.questions_data = []
-            for sheet_name in xls.sheet_names:
-                df = pd.read_excel(xls, sheet_name=sheet_name)
+            for sheet_name, df in all_sheets.items():
                 valid_df = df[df["Testo della domanda"].notna() & df["Risposta corretta"].notna()]
                 valid_df = valid_df[valid_df["Testo della domanda"].astype(str).str.strip() != ""]
                 valid_df = valid_df[valid_df["Risposta corretta"].astype(str).str.strip() != ""]
