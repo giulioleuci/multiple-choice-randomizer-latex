@@ -13,11 +13,7 @@ from collections import defaultdict
 
 # Importazioni PyLaTeX
 from pylatex import Document, Command, NoEscape, Package
-from pylatex.base_classes import Environment, CommandBase
-
-class LatexCustomCommand(CommandBase):
-    def __init__(self, command, arguments=None, options=None, extra_arguments=None):
-        super().__init__(command, arguments=arguments, options=options, extra_arguments=extra_arguments)
+from pylatex.base_classes import Environment
 
 class Multicols(Environment):
     def __init__(self, columns):
