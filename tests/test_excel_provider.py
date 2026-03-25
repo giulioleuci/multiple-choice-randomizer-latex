@@ -1,7 +1,8 @@
 import pytest
 import pandas as pd
 from unittest.mock import patch, MagicMock
-from io_handlers.excel_provider import load_questions_from_excel, _parse_row
+from io_handlers.excel_provider import load_questions_from_excel, _parse_row, load_student_answers_from_excel
+from core.models import StudentSubmission
 
 def test_parse_row_edge_cases():
     data = {
@@ -46,3 +47,40 @@ def test_load_questions_empty_rows(mock_read_excel):
     questions = load_questions_from_excel("dummy.xlsx")
     assert len(questions) == 1
     assert questions[0].question_text == "Valid Q"
+
+@patch("io_handlers.excel_provider.pd.read_excel")
+def test_load_student_answers_missing_columns(mock_read_excel):
+    # Mocking a DataFrame with missing 'variant_id' column
+    df = pd.DataFrame({
+        "student_id": ["S001", "S002"],
+        "1": ["A", "B"]
+    })
+    mock_read_excel.return_value = df
+
+    with pytest.raises(RuntimeError) as exc_info:
+        load_student_answers_from_excel("dummy_answers.xlsx")
+
+    assert "Colonne mancanti nel file: variant_id" in str(exc_info.value)
+
+@patch("io_handlers.excel_provider.pd.read_excel")
+def test_load_student_answers_success(mock_read_excel):
+    # Mocking a valid DataFrame
+    df = pd.DataFrame({
+        "student_id": ["S001", "S002"],
+        "variant_id": [1.0, "2"],
+        "1": ["A", "C"],
+        "2": ["B", "D"]
+    })
+    mock_read_excel.return_value = df
+
+    submissions = load_student_answers_from_excel("dummy_answers.xlsx")
+
+    assert len(submissions) == 2
+
+    assert submissions[0].student_id == "S001"
+    assert submissions[0].variant_id == "1"
+    assert submissions[0].answers == {"1": "A", "2": "B"}
+
+    assert submissions[1].student_id == "S002"
+    assert submissions[1].variant_id == "2"
+    assert submissions[1].answers == {"1": "C", "2": "D"}
