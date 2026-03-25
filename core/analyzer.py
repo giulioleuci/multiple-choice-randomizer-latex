@@ -105,6 +105,26 @@ def analyze_questions(test_results: Dict[str, Any], question_analytics: Dict[str
     upper_group = student_scores[:upper_n]
     lower_group = student_scores[-lower_n:]
 
+    upper_correct_counts = {}
+    for _, result in upper_group:
+        seen_sheets = set()
+        for ans_data in result["answers"].values():
+            sheet_name = ans_data["sheet"]
+            if sheet_name not in seen_sheets and ans_data["response"] != "blank" and \
+               ans_data["response"].upper() == ans_data["correct"].upper():
+                upper_correct_counts[sheet_name] = upper_correct_counts.get(sheet_name, 0) + 1
+                seen_sheets.add(sheet_name)
+
+    lower_correct_counts = {}
+    for _, result in lower_group:
+        seen_sheets = set()
+        for ans_data in result["answers"].values():
+            sheet_name = ans_data["sheet"]
+            if sheet_name not in seen_sheets and ans_data["response"] != "blank" and \
+               ans_data["response"].upper() == ans_data["correct"].upper():
+                lower_correct_counts[sheet_name] = lower_correct_counts.get(sheet_name, 0) + 1
+                seen_sheets.add(sheet_name)
+
     for sheet_name, stats_dict in question_analytics.items():
         total_answers = stats_dict["correct"] + stats_dict["wrong"] + stats_dict["blank"]
         if total_answers == 0:
@@ -116,20 +136,8 @@ def analyze_questions(test_results: Dict[str, Any], question_analytics: Dict[str
 
         difficulty = 1.0 - (stats_dict["correct"] / total_answers)
 
-        upper_correct = 0
-        lower_correct = 0
-
-        for student_id, result in upper_group:
-            for q_num, ans_data in result["answers"].items():
-                if ans_data["sheet"] == sheet_name and ans_data["response"] != "blank" and ans_data["response"].upper() == ans_data["correct"].upper():
-                    upper_correct += 1
-                    break
-
-        for student_id, result in lower_group:
-            for q_num, ans_data in result["answers"].items():
-                if ans_data["sheet"] == sheet_name and ans_data["response"] != "blank" and ans_data["response"].upper() == ans_data["correct"].upper():
-                    lower_correct += 1
-                    break
+        upper_correct = upper_correct_counts.get(sheet_name, 0)
+        lower_correct = lower_correct_counts.get(sheet_name, 0)
 
         p_upper = upper_correct / upper_n if upper_n > 0 else 0
         p_lower = lower_correct / lower_n if lower_n > 0 else 0
