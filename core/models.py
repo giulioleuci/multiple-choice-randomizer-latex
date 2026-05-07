@@ -18,6 +18,7 @@ class Question:
 
 @dataclass
 class TestVariant:
+    __test__ = False
     variant_id: str
     questions: List[Question]
 
